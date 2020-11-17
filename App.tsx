@@ -37,13 +37,18 @@ interface IState {
   totalVotes: IVotes[];
 }
 
-const gameModes: String[] = ["Storm League", "Quick Match", "ARAM"];
-const gameMaps: IThumbnailProps[] = [{name:"Tomb of the SpiderQueen", imageURL:"/"},{name:"Dragon Knight", imageURL:"/"}];
-const gameHeroes: IThumbnailProps[] = [{name:"Lunara", imageURL:"/"}, {name:"Raynor", imageURL:"/"}];
-
+const gameModes: String[] = ['Storm League', 'Quick Match', 'ARAM'];
+const gameMaps: IThumbnailProps[] = [
+  {name: 'Tomb of the SpiderQueen', imageURL: '/'},
+  {name: 'Dragon Knight', imageURL: '/'},
+];
+const gameHeroes: IThumbnailProps[] = [
+  {name: 'Lunara', imageURL: '/'},
+  {name: 'Raynor', imageURL: '/'},
+];
 
 const returnInitialState = (): IState => {
-  const state = { totalVotes: [] };
+  const state = {totalVotes: []};
   gameModes.forEach((mode, modeIndex) => {
     gameMaps.forEach((map, mapIndex) => {
       gameHeroes.forEach((hero, heroIndex) => {
@@ -51,18 +56,18 @@ const returnInitialState = (): IState => {
           modeIndex,
           mapIndex,
           heroIndex,
-          votes: { up:0, down:0, neutral:0 },
-        }
+          votes: {up: 0, down: 0, neutral: 0},
+        };
 
         state.totalVotes.push(voteState);
-      })
-    })
-  })
+      });
+    });
+  });
   return state;
 };
 
 const App = () => {
-  console.log("state:", returnInitialState());
+  console.log('state:', returnInitialState());
   return (
     <>
       <StatusBar barStyle="dark-content" />
