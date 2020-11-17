@@ -3,7 +3,7 @@
  * https://github.com/react-native-community/react-native-template-typescript
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-
+import { gameModes, gameMaps, gameHeroes } from './src/initialData'
 type IThumbnailProps = {
   name: String;
   imageURL: String;
@@ -35,20 +35,16 @@ type IVotes = {
 
 interface IState {
   totalVotes: IVotes[];
+  currentMode: number;
+  currentMap: number | null;
 }
 
-const gameModes: String[] = ['Storm League', 'Quick Match', 'ARAM'];
-const gameMaps: IThumbnailProps[] = [
-  {name: 'Tomb of the SpiderQueen', imageURL: '/'},
-  {name: 'Dragon Knight', imageURL: '/'},
-];
-const gameHeroes: IThumbnailProps[] = [
-  {name: 'Lunara', imageURL: '/'},
-  {name: 'Raynor', imageURL: '/'},
-];
-
 const returnInitialState = (): IState => {
-  const state = {totalVotes: []};
+  const state = {
+    totalVotes: [],
+    currentMode: 0,
+    currentMap: null,
+  };
   gameModes.forEach((mode, modeIndex) => {
     gameMaps.forEach((map, mapIndex) => {
       gameHeroes.forEach((hero, heroIndex) => {
@@ -67,7 +63,7 @@ const returnInitialState = (): IState => {
 };
 
 const App = () => {
-  console.log('state:', returnInitialState());
+  console.log('State:', returnInitialState());
   return (
     <>
       <StatusBar barStyle="dark-content" />
