@@ -8,4 +8,3 @@ export const gameHeroes: IThumbnailProps[] = [
   {name: 'Lunara', imageURL: '/'},
   {name: 'Raynor', imageURL: '/'},
 ];
-

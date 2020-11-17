@@ -3,7 +3,7 @@
  * https://github.com/react-native-community/react-native-template-typescript
  */
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -14,10 +14,10 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import { gameModes, gameMaps, gameHeroes } from './src/initialData'
+import {gameModes, gameMaps, gameHeroes} from './src/initialData';
 type IThumbnailProps = {
-  name: String;
-  imageURL: String;
+  name: string;
+  imageURL: string;
 };
 
 type IVoteCount = {
@@ -39,31 +39,68 @@ interface IState {
   currentMap: number | null;
 }
 
-const returnInitialState = (): IState => {
-  const state = {
-    totalVotes: [],
-    currentMode: 0,
-    currentMap: null,
-  };
-  gameModes.forEach((mode, modeIndex) => {
-    gameMaps.forEach((map, mapIndex) => {
-      gameHeroes.forEach((hero, heroIndex) => {
-        const voteState = {
-          modeIndex,
-          mapIndex,
-          heroIndex,
-          votes: {up: 0, down: 0, neutral: 0},
-        };
+interface IFilterProps {
+  links: {label: string; onClick: () => void}[];
+}
 
-        state.totalVotes.push(voteState);
-      });
-    });
-  });
-  return state;
+const Filter = (props: IFilterProps) => {
+  return (
+    <>
+      {props.links.map((link) => (
+        <Text>{link.label}</Text>
+      ))}
+    </>
+  );
 };
 
 const App = () => {
-  console.log('State:', returnInitialState());
+  const returnInitialState = (): IState => {
+    const initialState = {
+      totalVotes: [],
+      currentMode: 0,
+      currentMap: null,
+    };
+    gameModes.forEach((mode, modeIndex) => {
+      gameMaps.forEach((map, mapIndex) => {
+        gameHeroes.forEach((hero, heroIndex) => {
+          const voteState = {
+            modeIndex,
+            mapIndex,
+            heroIndex,
+            votes: {up: 0, down: 0, neutral: 0},
+          };
+
+          initialState.totalVotes.push(voteState);
+        });
+      });
+    });
+    return initialState;
+  };
+
+  const [state, setState] = useState(returnInitialState());
+
+  const returnScreenTitle = (
+    modeName: string,
+    mapName: string | null,
+  ): string => {
+    const stringTail = mapName ? `for ${mapName}` : 'by Map';
+    return `Best ${modeName} Hero ${stringTail}`;
+  };
+
+  const returnFilterLinks = () => {
+    return gameModes.map((mode) => {
+      return {label: mode, onClick: () => {}};
+    });
+  };
+
+  const {currentMode, currentMap} = state;
+  const title = returnScreenTitle(
+    gameModes[currentMode],
+    currentMap ? gameMaps[currentMap].name : null,
+  );
+  const filterLinks = returnFilterLinks();
+  console.log('LINKS', filterLinks, 'STATE', state);
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -73,6 +110,8 @@ const App = () => {
           style={styles.scrollView}>
           <View style={styles.body}>
             <Text>HotsMobile!</Text>
+            <Filter links={filterLinks} />
+            <Text>{title}</Text>
           </View>
         </ScrollView>
       </SafeAreaView>
