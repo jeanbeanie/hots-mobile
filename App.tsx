@@ -12,8 +12,8 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-
 import Filter from './src/Filter';
+import {Col, Grid} from 'react-native-easy-grid';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {gameModes, gameMaps, gameHeroes} from './src/initialData';
 
@@ -100,6 +100,14 @@ const App = () => {
             <Text style={styles.title}>HOTS RANKER</Text>
             <Filter links={filterLinks} />
             <Text style={styles.title}>{title}</Text>
+            <Grid>
+              <Col>
+                <Text>a</Text>
+              </Col>
+              <Col>
+                <Text>b</Text>
+              </Col>
+            </Grid>
           </View>
         </ScrollView>
       </SafeAreaView>
