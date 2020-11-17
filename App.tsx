@@ -11,9 +11,9 @@ import {
   View,
   Text,
   StatusBar,
-  Button,
 } from 'react-native';
 
+import Filter from './src/Filter';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {gameModes, gameMaps, gameHeroes} from './src/initialData';
 
@@ -32,34 +32,13 @@ type IVotes = {
 
 interface IState {
   totalVotes: IVotes[];
-  currentMode: number;
   currentMap: number | null;
 }
-
-interface IFilterProps {
-  links: {label: string; isDisabled:boolean; onClick: () => void}[];
-}
-
-const Filter = (props: IFilterProps) => {
-  return (
-    <View style={styles.flexContainer}>
-      {props.links.map((link) => (
-        <Button
-          style={styles.navButton}
-          title={link.label}
-          onPress={link.onClick}
-          disabled={link.isDisabled}
-        />
-      ))}
-    </View>
-  );
-};
 
 const App = () => {
   const returnInitialState = (): IState => {
     const initialState = {
       totalVotes: [],
-      currentMode: 0,
       currentMap: null,
     };
     gameModes.forEach((mode, modeIndex) => {
@@ -79,27 +58,30 @@ const App = () => {
     return initialState;
   };
 
-  const [state, setState] = useState(returnInitialState());
+  const [state] = useState(returnInitialState());
+  const [currentMode, setCurrentMode] = useState(0);
 
   const returnScreenTitle = (
     modeName: string,
     mapName: string | null,
   ): string => {
     const stringTail = mapName ? `for ${mapName}` : 'by Map';
-    return `Best ${modeName} Hero ${stringTail}`;
+    return `Vote on the Best ${modeName} Hero ${stringTail}`;
   };
 
   const returnFilterLinks = () => {
     return gameModes.map((mode, modeIndex) => {
       return {
         label: mode,
-        onClick: () => {},
-        isDisabled: state.currentMode === modeIndex,
+        onClick: () => {
+          setCurrentMode(modeIndex);
+        },
+        isDisabled: currentMode === modeIndex,
       };
     });
   };
 
-  const {currentMode, currentMap} = state;
+  const {currentMap} = state;
   const title = returnScreenTitle(
     gameModes[currentMode],
     currentMap ? gameMaps[currentMap].name : null,
@@ -126,14 +108,8 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  flexContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  navButton: {},
   title: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
     paddingTop: 10,
