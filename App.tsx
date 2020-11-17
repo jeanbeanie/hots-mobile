@@ -15,7 +15,54 @@ import {
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
+type IThumbnailProps = {
+  name: String;
+  imageURL: String;
+};
+
+type IVoteCount = {
+  up: number;
+  down: number;
+  neutral: number;
+};
+
+type IVotes = {
+  modeIndex: number;
+  mapIndex: number;
+  heroIndex: number;
+  votes: IVoteCount;
+};
+
+interface IState {
+  totalVotes: IVotes[];
+}
+
+const gameModes: String[] = ["Storm League", "Quick Match", "ARAM"];
+const gameMaps: IThumbnailProps[] = [{name:"Tomb of the SpiderQueen", imageURL:"/"},{name:"Dragon Knight", imageURL:"/"}];
+const gameHeroes: IThumbnailProps[] = [{name:"Lunara", imageURL:"/"}, {name:"Raynor", imageURL:"/"}];
+
+
+const returnInitialState = (): IState => {
+  const state = { totalVotes: [] };
+  gameModes.forEach((mode, modeIndex) => {
+    gameMaps.forEach((map, mapIndex) => {
+      gameHeroes.forEach((hero, heroIndex) => {
+        const voteState = {
+          modeIndex,
+          mapIndex,
+          heroIndex,
+          votes: { up:0, down:0, neutral:0 },
+        }
+
+        state.totalVotes.push(voteState);
+      })
+    })
+  })
+  return state;
+};
+
 const App = () => {
+  console.log("state:", returnInitialState());
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -24,7 +71,7 @@ const App = () => {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
           <View style={styles.body}>
-            <Text>HotsMobile</Text>
+            <Text>HotsMobile!</Text>
           </View>
         </ScrollView>
       </SafeAreaView>
