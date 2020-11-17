@@ -16,10 +16,6 @@ import {
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {gameModes, gameMaps, gameHeroes} from './src/initialData';
-type IThumbnailProps = {
-  name: string;
-  imageURL: string;
-};
 
 type IVoteCount = {
   up: number;
@@ -41,7 +37,7 @@ interface IState {
 }
 
 interface IFilterProps {
-  links: {label: string; onClick: () => void}[];
+  links: {label: string; isDisabled:boolean; onClick: () => void}[];
 }
 
 const Filter = (props: IFilterProps) => {
@@ -52,6 +48,7 @@ const Filter = (props: IFilterProps) => {
           style={styles.navButton}
           title={link.label}
           onPress={link.onClick}
+          disabled={link.isDisabled}
         />
       ))}
     </View>
@@ -93,8 +90,12 @@ const App = () => {
   };
 
   const returnFilterLinks = () => {
-    return gameModes.map((mode) => {
-      return {label: mode, onClick: () => {}};
+    return gameModes.map((mode, modeIndex) => {
+      return {
+        label: mode,
+        onClick: () => {},
+        isDisabled: state.currentMode === modeIndex,
+      };
     });
   };
 
@@ -114,7 +115,7 @@ const App = () => {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
           <View style={styles.body}>
-            <Text style={styles.title}>HotsMobile!</Text>
+            <Text style={styles.title}>HOTS RANKER</Text>
             <Filter links={filterLinks} />
             <Text style={styles.title}>{title}</Text>
           </View>
