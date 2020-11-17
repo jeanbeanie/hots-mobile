@@ -11,6 +11,7 @@ import {
   View,
   Text,
   StatusBar,
+  Button,
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -45,11 +46,15 @@ interface IFilterProps {
 
 const Filter = (props: IFilterProps) => {
   return (
-    <>
+    <View style={styles.flexContainer}>
       {props.links.map((link) => (
-        <Text>{link.label}</Text>
+        <Button
+          style={styles.navButton}
+          title={link.label}
+          onPress={link.onClick}
+        />
       ))}
-    </>
+    </View>
   );
 };
 
@@ -109,9 +114,9 @@ const App = () => {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
           <View style={styles.body}>
-            <Text>HotsMobile!</Text>
+            <Text style={styles.title}>HotsMobile!</Text>
             <Filter links={filterLinks} />
-            <Text>{title}</Text>
+            <Text style={styles.title}>{title}</Text>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -120,6 +125,19 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
+  flexContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  navButton: {},
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
   scrollView: {
     backgroundColor: Colors.lighter,
   },
