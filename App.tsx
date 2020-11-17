@@ -41,9 +41,9 @@ const App = () => {
       totalVotes: [],
       currentMap: null,
     };
-    gameModes.forEach((mode, modeIndex) => {
-      gameMaps.forEach((map, mapIndex) => {
-        gameHeroes.forEach((hero, heroIndex) => {
+    gameModes.forEach((_, modeIndex) => {
+      gameMaps.forEach((__, mapIndex) => {
+        gameHeroes.forEach((___, heroIndex) => {
           const voteState = {
             modeIndex,
             mapIndex,
