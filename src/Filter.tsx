@@ -23,6 +23,7 @@ const styles = {
   flex: 1,
   flexDirection: 'row',
   justifyContent: 'center',
+  maxHeight: 40,
 };
 
 export default Filter;

@@ -11,6 +11,7 @@ import {
   View,
   Text,
   StatusBar,
+  Dimensions,
 } from 'react-native';
 import Filter from './src/Filter';
 import {Col, Grid} from 'react-native-easy-grid';
@@ -60,6 +61,7 @@ const App = () => {
 
   const [state] = useState(returnInitialState());
   const [currentMode, setCurrentMode] = useState(0);
+  const {height} = Dimensions.get('window');
 
   const returnScreenTitle = (
     modeName: string,
@@ -96,7 +98,7 @@ const App = () => {
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
-          <View style={styles.body}>
+          <View style={{...styles.body, height}}>
             <Text style={styles.title}>HOTS RANKER</Text>
             <Filter links={filterLinks} />
             <Text style={styles.title}>{title}</Text>
@@ -122,16 +124,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingTop: 10,
     paddingBottom: 10,
+    color: Colors.white,
   },
   scrollView: {
-    backgroundColor: Colors.lighter,
+    backgroundColor: Colors.dark,
+    minHeight: 200,
   },
   engine: {
     position: 'absolute',
     right: 0,
   },
   body: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.dark,
   },
 });
 
