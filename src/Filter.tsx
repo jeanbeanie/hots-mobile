@@ -8,11 +8,12 @@ interface IFilterProps {
 const Filter = (props: IFilterProps) => {
   return (
     <View style={styles}>
-      {props.links.map((link) => (
+      {props.links.map((link, linkIndex) => (
         <Button
           title={link.label}
           onPress={link.onClick}
           disabled={link.isDisabled}
+          key={linkIndex}
         />
       ))}
     </View>

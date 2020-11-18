@@ -14,7 +14,7 @@ import {
   Dimensions,
 } from 'react-native';
 import Filter from './src/Filter';
-import {Col, Grid} from 'react-native-easy-grid';
+import ThumbnailGrid from './src/ThumbnailGrid';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {gameModes, gameMaps, gameHeroes} from './src/initialData';
 
@@ -63,11 +63,11 @@ const App = () => {
   const [currentMode, setCurrentMode] = useState(0);
   const {height} = Dimensions.get('window');
 
-  const returnScreenTitle = (
-    modeName: string,
-    mapName: string | null,
-  ): string => {
+  const returnScreenTitle = (): string => {
+    const modeName = gameModes[currentMode];
+    const mapName = currentMap ? gameMaps[currentMap].name : null;
     const stringTail = mapName ? `for ${mapName}` : 'by Map';
+
     return `Vote on the Best ${modeName} Hero ${stringTail}`;
   };
 
@@ -83,13 +83,16 @@ const App = () => {
     });
   };
 
+  const returnGridItems = (): IThumbnails[] => {
+    return gameMaps;
+  };
+
+  /* RENDER */
   const {currentMap} = state;
-  const title = returnScreenTitle(
-    gameModes[currentMode],
-    currentMap ? gameMaps[currentMap].name : null,
-  );
+  const title = returnScreenTitle();
   const filterLinks = returnFilterLinks();
-  console.log('LINKS', filterLinks, 'STATE', state);
+  const gridItems = returnGridItems();
+  // console.log('LINKS', filterLinks, 'STATE', state);
 
   return (
     <>
@@ -102,14 +105,7 @@ const App = () => {
             <Text style={styles.title}>HOTS RANKER</Text>
             <Filter links={filterLinks} />
             <Text style={styles.title}>{title}</Text>
-            <Grid>
-              <Col>
-                <Text>a</Text>
-              </Col>
-              <Col>
-                <Text>b</Text>
-              </Col>
-            </Grid>
+            <ThumbnailGrid numCols={2} items={gridItems} />
           </View>
         </ScrollView>
       </SafeAreaView>
