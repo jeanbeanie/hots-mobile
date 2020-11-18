@@ -83,7 +83,7 @@ const App = () => {
     });
   };
 
-  const returnGridItems = (): IThumbnails[] => {
+  const returnGridItems = (): IThumbnailProps[] => {
     return gameMaps;
   };
 
