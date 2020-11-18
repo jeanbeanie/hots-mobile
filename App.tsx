@@ -101,7 +101,7 @@ const App = () => {
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
-          <View style={{...styles.body, height}}>
+          <View style={{...styles.body, minHeight: height, height: '100%'}}>
             <Text style={styles.title}>HOTS RANKER</Text>
             <Filter links={filterLinks} />
             <Text style={styles.title}>{title}</Text>
