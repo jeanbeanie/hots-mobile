@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, Image} from 'react-native';
+import {Pressable, Button, Text, View, Image} from 'react-native';
 import {Col, Grid} from 'react-native-easy-grid';
 import {IThumbnailProps} from './interfaces';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -10,21 +10,24 @@ interface IGridProps {
 }
 
 const Thumbnail = (props: IThumbnailProps) => {
-  const {imageURL} = props;
-  console.log('URL', imageURL);
+  const {imageURL, onClick} = props;
   return (
     <View
       style={{
         paddingBottom: 10,
-        margin: 10,
+          margin: 10,
       }}>
-      <Image
-        source={imageURL ? imageURL : undefined}
-        style={{borderWidth: 1, borderColor: Colors.black, height: 200}}
-      />
-      <Text style={{color: Colors.white, paddingTop: 10, textAlign: 'center'}}>
-        {props.name}
-      </Text>
+      <Pressable onPress={onClick}>
+        <Image
+          source={imageURL ? imageURL : undefined}
+          style={{borderWidth: 1, maxWidth:'100%', height:150, borderColor: Colors.black}}
+          
+        />
+        <Text
+          style={{color: Colors.white, paddingTop: 10, textAlign: 'center'}}>
+          {props.name}
+        </Text>
+      </Pressable>
     </View>
   );
 };
@@ -36,7 +39,6 @@ const ThumbnailGrid = (props: IGridProps) => {
     let currentColIndex = 0;
     let nextColIndex = () =>
       currentColIndex + 1 >= numCols ? 0 : currentColIndex + 1;
-
     for (let i = 0; i < items.length; i++) {
       const thumbnail = <Thumbnail {...items[i]} key={i} />;
       if (columns[currentColIndex]) {
@@ -53,8 +55,8 @@ const ThumbnailGrid = (props: IGridProps) => {
 
   return (
     <Grid style={{paddingBottom: 15}}>
-      {columns.map((column) => (
-        <Col>{column.map((item) => item)}</Col>
+      {columns.map((column, colIndex) => (
+        <Col key={colIndex}>{column.map((item) => item)}</Col>
       ))}
     </Grid>
   );

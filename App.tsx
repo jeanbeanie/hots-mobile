@@ -33,14 +33,12 @@ type IVotes = {
 
 interface IState {
   totalVotes: IVotes[];
-  currentMap: number | null;
 }
 
 const App = () => {
   const returnInitialState = (): IState => {
     const initialState = {
       totalVotes: [],
-      currentMap: null,
     };
     gameModes.forEach((_, modeIndex) => {
       gameMaps.forEach((__, mapIndex) => {
@@ -60,12 +58,13 @@ const App = () => {
   };
 
   const [state] = useState(returnInitialState());
+  const [currentMap, setCurrentMap] = useState(null);
   const [currentMode, setCurrentMode] = useState(0);
   const {height} = Dimensions.get('window');
 
   const returnScreenTitle = (): string => {
     const modeName = gameModes[currentMode];
-    const mapName = currentMap ? gameMaps[currentMap].name : null;
+    const mapName = currentMap !== null ? gameMaps[currentMap].name : null;
     const stringTail = mapName ? `for ${mapName}` : 'by Map';
 
     return `Vote on the Best ${modeName} Hero ${stringTail}`;
@@ -77,23 +76,32 @@ const App = () => {
         label: mode,
         onClick: () => {
           setCurrentMode(modeIndex);
+          setCurrentMap(null);
         },
         isDisabled: currentMode === modeIndex,
       };
     });
   };
 
+  const returnMapsWithCallbacks = () => {
+    return gameMaps.map((gameMap, gameMapIndex) => {
+      return {
+        ...gameMap,
+        onClick: () => {
+          setCurrentMap(gameMapIndex);
+        },
+      };
+    });
+  };
+
   const returnGridItems = (): IThumbnailProps[] => {
-    return gameMaps;
+    return currentMap !== null ? gameHeroes : returnMapsWithCallbacks();
   };
 
   /* RENDER */
-  const {currentMap} = state;
   const title = returnScreenTitle();
   const filterLinks = returnFilterLinks();
   const gridItems = returnGridItems();
-  // console.log('LINKS', filterLinks, 'STATE', state);
-
   return (
     <>
       <StatusBar barStyle="dark-content" />
