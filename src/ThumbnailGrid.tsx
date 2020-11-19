@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, Button, Text, View, Image} from 'react-native';
+import {Pressable, Text, View, Image} from 'react-native';
 import {Col, Grid} from 'react-native-easy-grid';
 import {IThumbnailProps} from './interfaces';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -14,7 +14,7 @@ const Thumbnail = (props: IThumbnailProps) => {
   return (
     <View
       style={{
-        paddingBottom: 10,
+        paddingBottom: 5,
         margin: 10,
       }}>
       <Pressable onPress={onClick}>
@@ -22,7 +22,7 @@ const Thumbnail = (props: IThumbnailProps) => {
           source={imageURL ? imageURL : undefined}
           style={{
             borderWidth: 1,
-            maxWidth: '100%',
+            width: '100%',
             height: 150,
             borderColor: Colors.black,
           }}
