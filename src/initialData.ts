@@ -8,11 +8,16 @@ export const gameMaps: IThumbnailProps[] = [
     imageURL: require('./images/maps/spider-queen.jpeg'),
   },
   {name: 'Dragon Knight', imageURL: require('./images/maps/spider-queen.jpeg')},
-  {name: 'Volkyse Industry',
-    imageURL: require('./images/maps/spider-queen.jpeg')},
+  {
+    name: 'Volkyse Industry',
+    imageURL: require('./images/maps/spider-queen.jpeg'),
+  },
   {name: 'Pirate Bay', imageURL: require('./images/maps/spider-queen.jpeg')},
   {name: 'Atarac Pass', imageURL: require('./images/maps/spider-queen.jpeg')},
-  {name: 'Battlefield of Eternity', imageURL: require('./images/maps/spider-queen.jpeg')},
+  {
+    name: 'Battlefield of Eternity',
+    imageURL: require('./images/maps/spider-queen.jpeg'),
+  },
 ];
 
 export const gameHeroes: IThumbnailProps[] = [

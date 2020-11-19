@@ -15,13 +15,17 @@ const Thumbnail = (props: IThumbnailProps) => {
     <View
       style={{
         paddingBottom: 10,
-          margin: 10,
+        margin: 10,
       }}>
       <Pressable onPress={onClick}>
         <Image
           source={imageURL ? imageURL : undefined}
-          style={{borderWidth: 1, maxWidth:'100%', height:150, borderColor: Colors.black}}
-          
+          style={{
+            borderWidth: 1,
+            maxWidth: '100%',
+            height: 150,
+            borderColor: Colors.black,
+          }}
         />
         <Text
           style={{color: Colors.white, paddingTop: 10, textAlign: 'center'}}>
