@@ -63,7 +63,7 @@ const App = () => {
   const {height} = Dimensions.get('window');
 
   const returnScreenTitle = (): string => {
-    const modeName = gameModes[currentMode];
+    const modeName = gameModes[currentMode].name;
     const mapName = currentMap !== null ? gameMaps[currentMap].name : null;
     const stringTail = mapName ? `for ${mapName}` : 'by Map';
 
@@ -73,7 +73,7 @@ const App = () => {
   const returnFilterLinks = () => {
     return gameModes.map((mode, modeIndex) => {
       return {
-        label: mode,
+        label: mode.name,
         onClick: () => {
           setCurrentMode(modeIndex);
           setCurrentMap(null);

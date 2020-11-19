@@ -1,6 +1,15 @@
 import {IThumbnailProps} from './interfaces';
 
-export const gameModes: string[] = ['Storm League', 'Quick Match', 'ARAM'];
+interface IGameModes {
+  name: string;
+  activeMaps: number[];
+}
+
+export const gameModes: IGameModes[] = [
+  {name:'Storm League', activeMaps:[]},
+  {name: 'Quick Match', activeMaps:[]},
+  {name: 'ARAM', activeMaps:[]},
+];
 
 export const gameMaps: IThumbnailProps[] = [
   {
