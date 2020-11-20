@@ -59,16 +59,26 @@ const App = () => {
   };
 
   const findVotesByHeroIndex = (hero: number) => {
-    return state.totalVotes.find(({modeIndex, mapIndex, heroIndex}) => {
-      return (
-        modeIndex === currentMode &&
-        mapIndex === currentMap &&
-        heroIndex === hero
-      );
-    }).votes;
+    let voteIndex;
+    const votes = state.totalVotes.find(
+      ({modeIndex, mapIndex, heroIndex}, index) => {
+        if (
+          modeIndex === currentMode &&
+          mapIndex === currentMap &&
+          heroIndex === hero
+        ) {
+          voteIndex = index;
+          return true;
+        } else {
+          return false;
+        }
+      },
+    ).votes;
+    console.log('VOTES', votes);
+    return {votes, voteIndex};
   };
 
-  const [state] = useState(returnInitialState());
+  const [state, setState] = useState(returnInitialState());
   const [currentMap, setCurrentMap] = useState(null);
   const [currentMode, setCurrentMode] = useState(0);
   const {height} = Dimensions.get('window');
@@ -115,11 +125,35 @@ const App = () => {
   };
 
   const generateVoteButtons = (heroIndex) => {
-    const votes = findVotesByHeroIndex(heroIndex);
+    const {votes, voteIndex} = findVotesByHeroIndex(heroIndex);
+    const updateVoteState = (
+      voteIndex: number,
+      voteType: string,
+      numVotes: number,
+    ) => {
+      const newState = state;
+      newState.totalVotes[voteIndex].votes[voteType] = numVotes;
+      setState(newState);
+    };
     return [
-      <Button title={`UPVOTE (${votes.up})`} />,
-      <Button title={`DOWNVOTE (${votes.down})`} />,
-      <Button title={`MEH VOTE (${votes.neutral})`} />,
+      <Button
+        title={`UPVOTE (${votes.up})`}
+        onPress={() => {
+          updateVoteState(voteIndex, 'up', votes.up + 1);
+        }}
+      />,
+      <Button
+        title={`DOWNVOTE (${votes.down})`}
+        onPress={() => {
+          updateVoteState(voteIndex, 'down', votes.down + 1);
+        }}
+      />,
+      <Button
+        title={`MEH VOTE (${votes.neutral})`}
+        onPress={() => {
+          updateVoteState(voteIndex, 'neutral', votes.neutral + 1);
+        }}
+      />,
     ];
   };
 
