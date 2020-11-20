@@ -65,9 +65,11 @@ const App = () => {
   const returnScreenTitle = (): string => {
     const modeName = gameModes[currentMode].name;
     const mapName = currentMap !== null ? gameMaps[currentMap].name : null;
-    const stringTail = mapName ? `for ${mapName}` : 'by Map';
+    const returnStringTail = mapName ? `for ${mapName}` : 'by Map';
 
-    return `Vote on the Best ${modeName} Hero ${stringTail}`;
+    return `Vote on the Best ${modeName} Hero ${
+      modeName === 'ARAM' ? '' : returnStringTail
+    }`;
   };
 
   const returnFilterLinks = () => {
@@ -83,7 +85,13 @@ const App = () => {
     });
   };
 
-  const returnMapsWithCallbacks = () => {
+  const returnActiveMaps = () => {
+    return gameMaps.filter((map) =>
+      gameModes[currentMode].activeMaps.includes(map.key),
+    );
+  };
+
+  const returnMapsWithCallbacks = (gameMaps) => {
     return gameMaps.map((gameMap, gameMapIndex) => {
       return {
         ...gameMap,
@@ -95,7 +103,12 @@ const App = () => {
   };
 
   const returnGridItems = (): IThumbnailProps[] => {
-    return currentMap !== null ? gameHeroes : returnMapsWithCallbacks();
+    if (currentMap !== null || gameModes[currentMode].name === 'ARAM') {
+      return gameHeroes;
+    } else {
+      const activeMaps = returnActiveMaps();
+      return returnMapsWithCallbacks(activeMaps);
+    }
   };
 
   /* RENDER */

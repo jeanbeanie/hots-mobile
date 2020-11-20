@@ -2,29 +2,76 @@ import {IThumbnailProps} from './interfaces';
 
 interface IGameModes {
   name: string;
-  activeMaps: number[];
+  activeMaps: gameMapKeys[];
+}
+
+enum gameMapKeys {
+  'spider',
+  'dragon',
+  'volkskaya',
+  'blackheart',
+  'boe',
+  'aterac',
 }
 
 export const gameModes: IGameModes[] = [
-  {name:'Storm League', activeMaps:[]},
-  {name: 'Quick Match', activeMaps:[]},
-  {name: 'ARAM', activeMaps:[]},
+  {
+    name: 'Storm League',
+    activeMaps: [
+      gameMapKeys.spider,
+      gameMapKeys.dragon,
+      gameMapKeys.volkskaya,
+      gameMapKeys.aterac,
+      gameMapKeys.boe,
+    ],
+  },
+  {
+    name: 'Quick Match',
+    activeMaps: [
+      gameMapKeys.spider,
+      gameMapKeys.blackheart,
+      gameMapKeys.aterac,
+      gameMapKeys.dragon,
+      gameMapKeys.volkskaya,
+      gameMapKeys.boe,
+    ],
+  },
+  {name: 'ARAM', activeMaps: []},
 ];
 
-export const gameMaps: IThumbnailProps[] = [
+interface IGameMap extends IThumbnailProps {
+  key: gameMapKeys;
+}
+
+export const gameMaps: IGameMap[] = [
   {
     name: 'Tomb of the Spider Queen',
     imageURL: require('./images/maps/spider-queen.jpeg'),
+    key: gameMapKeys.spider,
   },
-  {name: 'Dragon Knight', imageURL: require('./images/maps/dragon-knight.png')},
+  {
+    name: 'Dragon Knight',
+    key: gameMapKeys.dragon,
+    imageURL: require('./images/maps/dragon-knight.png'),
+  },
   {
     name: 'Volskaya Industries',
     imageURL: require('./images/maps/volskaya.png'),
+    key: gameMapKeys.volkskaya,
   },
-  {name: 'Pirate Bay', imageURL: require('./images/maps/blackhearts-bay.jpeg')},
-  {name: 'Atarac Pass', imageURL: require('./images/maps/alterac.jpeg')},
+  {
+    name: 'Pirate Bay',
+    key: gameMapKeys.blackheart,
+    imageURL: require('./images/maps/blackhearts-bay.jpeg'),
+  },
+  {
+    name: 'Atarac Pass',
+    key: gameMapKeys.aterac,
+    imageURL: require('./images/maps/alterac.jpeg'),
+  },
   {
     name: 'Battlefield of Eternity',
+    key: gameMapKeys.boe,
     imageURL: require('./images/maps/boe.png'),
   },
 ];
