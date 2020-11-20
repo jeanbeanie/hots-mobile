@@ -10,16 +10,16 @@ interface IGridProps {
 }
 
 const Thumbnail = (props: IThumbnailProps) => {
-  const {imageURL, onClick} = props;
+  const {imageURL, pressable, onClick, buttons} = props;
   return (
     <View
       style={{
         paddingBottom: 5,
         margin: 10,
       }}>
-      <Pressable onPress={onClick}>
+      <Pressable onPress={pressable ? onClick : null}>
         <Image
-          source={imageURL ? imageURL : undefined}
+          source={imageURL ? imageURL : null}
           style={{
             borderWidth: 1,
             width: '100%',
@@ -31,6 +31,7 @@ const Thumbnail = (props: IThumbnailProps) => {
           style={{color: Colors.white, paddingTop: 10, textAlign: 'center'}}>
           {props.name}
         </Text>
+        {buttons && buttons.map((button) => button)}
       </Pressable>
     </View>
   );

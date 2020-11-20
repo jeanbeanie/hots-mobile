@@ -6,6 +6,7 @@
 import React, {useState} from 'react';
 import {
   SafeAreaView,
+  Button,
   StyleSheet,
   ScrollView,
   View,
@@ -57,6 +58,16 @@ const App = () => {
     return initialState;
   };
 
+  const findVotesByHeroIndex = (hero: number) => {
+    return state.totalVotes.find(({modeIndex, mapIndex, heroIndex}) => {
+      return (
+        modeIndex === currentMode &&
+        mapIndex === currentMap &&
+        heroIndex === hero
+      );
+    }).votes;
+  };
+
   const [state] = useState(returnInitialState());
   const [currentMap, setCurrentMap] = useState(null);
   const [currentMode, setCurrentMode] = useState(0);
@@ -91,10 +102,11 @@ const App = () => {
     );
   };
 
-  const returnMapsWithCallbacks = (gameMaps) => {
-    return gameMaps.map((gameMap, gameMapIndex) => {
+  const returnMapsWithCallbacks = (maps) => {
+    return maps.map((gameMap, gameMapIndex) => {
       return {
         ...gameMap,
+        pressable: true,
         onClick: () => {
           setCurrentMap(gameMapIndex);
         },
@@ -102,9 +114,28 @@ const App = () => {
     });
   };
 
+  const generateVoteButtons = (heroIndex) => {
+    const votes = findVotesByHeroIndex(heroIndex);
+    return [
+      <Button title={`UPVOTE (${votes.up})`} />,
+      <Button title={`DOWNVOTE (${votes.down})`} />,
+      <Button title={`MEH VOTE (${votes.neutral})`} />,
+    ];
+  };
+
+  const returnHeroesWithButtons = () => {
+    return gameHeroes.map((hero, heroIndex) => {
+      return {
+        ...hero,
+        pressable: false,
+        buttons: generateVoteButtons(heroIndex),
+      };
+    });
+  };
+
   const returnGridItems = (): IThumbnailProps[] => {
     if (currentMap !== null || gameModes[currentMode].name === 'ARAM') {
-      return gameHeroes;
+      return returnHeroesWithButtons();
     } else {
       const activeMaps = returnActiveMaps();
       return returnMapsWithCallbacks(activeMaps);
