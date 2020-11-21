@@ -12,6 +12,7 @@ enum gameMapKeys {
   'blackheart',
   'boe',
   'aterac',
+  'aram',
 }
 
 export const gameModes: IGameModes[] = [
@@ -36,7 +37,7 @@ export const gameModes: IGameModes[] = [
       gameMapKeys.boe,
     ],
   },
-  {name: 'ARAM', activeMaps: []},
+  {name: 'ARAM', activeMaps: [gameMapKeys.aram]},
 ];
 
 interface IGameMap extends IThumbnailProps {
@@ -73,6 +74,10 @@ export const gameMaps: IGameMap[] = [
     name: 'Battlefield of Eternity',
     key: gameMapKeys.boe,
     imageURL: require('./images/maps/boe.png'),
+  },
+  {
+    name: 'ARAM',
+    key: gameMapKeys.aram,
   },
 ];
 

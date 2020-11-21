@@ -98,8 +98,8 @@ const App = () => {
       return {
         label: mode.name,
         onClick: () => {
-          setCurrentMode(modeIndex);
-          setCurrentMap(null);
+          setCurrentMode(modeIndex); // todo clean next line heavily
+          setCurrentMap(modeIndex===2 ? gameMaps.findIndex((map) => map.name === 'ARAM') : null);
         },
         isDisabled: currentMode === modeIndex,
       };
