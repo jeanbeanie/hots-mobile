@@ -16,7 +16,6 @@ import {
 } from 'react-native';
 import Filter from './src/Filter';
 import ThumbnailGrid from './src/ThumbnailGrid';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {gameModes, gameMaps, gameHeroes} from './src/initialData';
 
 type IVotes = {
@@ -26,6 +25,12 @@ type IVotes = {
   upVotes: number;
   downVotes: number;
   neutralVotes: number;
+};
+
+const Colors = {
+  dark: '#12155C',
+  white: '#fff',
+  black: '#000',
 };
 
 const App = () => {

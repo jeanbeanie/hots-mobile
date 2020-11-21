@@ -28,7 +28,12 @@ const Thumbnail = (props: IThumbnailProps) => {
           }}
         />
         <Text
-          style={{color: Colors.white, paddingTop: 10, textAlign: 'center'}}>
+          style={{
+            color: Colors.white,
+            paddingTop: 10,
+            paddingBottom: 10,
+            textAlign: 'center',
+          }}>
           {props.name}
         </Text>
         {buttons && buttons.map((button) => button)}
