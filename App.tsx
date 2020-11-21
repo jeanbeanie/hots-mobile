@@ -19,17 +19,13 @@ import ThumbnailGrid from './src/ThumbnailGrid';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {gameModes, gameMaps, gameHeroes} from './src/initialData';
 
-type IVoteCount = {
-  up: number;
-  down: number;
-  neutral: number;
-};
-
 type IVotes = {
   modeIndex: number;
   mapIndex: number;
   heroIndex: number;
-  votes: IVoteCount;
+  upVotes: number;
+  downVotes: number;
+  neutralVotes: number;
 };
 
 const App = () => {
@@ -43,7 +39,9 @@ const App = () => {
             modeIndex,
             mapIndex,
             heroIndex,
-            votes: {up: 0, down: 0, neutral: 0},
+            upVotes: 0,
+            downVotes: 0,
+            neutralVotes: 0,
           };
 
           initialState.push(voteState);
@@ -55,6 +53,7 @@ const App = () => {
 
   const findVotesByHeroIndex = (hero: number) => {
     let voteIndex;
+    // TODO fix this find may return undefined!
     const votes = totalVotes.find(({modeIndex, mapIndex, heroIndex}, index) => {
       if (
         modeIndex === currentMode &&
@@ -66,8 +65,7 @@ const App = () => {
       } else {
         return false;
       }
-    }).votes;
-    console.log('VOTES', votes);
+    });
     return {votes, voteIndex};
   };
 
@@ -126,30 +124,30 @@ const App = () => {
     voteType: string,
     numVotes: number,
   ) => {
-    const newVotes = totalVotes;
-    newVotes[voteIndex].votes[voteType] = numVotes;
+    const newVotes = [...totalVotes];
+    newVotes[voteIndex][voteType] = numVotes;
     setTotalVotes(newVotes);
   };
-  // TODO FIX STATE NOT UPDATING ON CLICK!
   const generateVoteButtons = (heroIndex) => {
     const {votes, voteIndex} = findVotesByHeroIndex(heroIndex);
+    const {upVotes, downVotes, neutralVotes} = votes;
     return [
       <Button
-        title={`UPVOTE (${votes.up})`}
+        title={`UPVOTE (${upVotes})`}
         onPress={() => {
-          updateVoteState(voteIndex, 'up', votes.up + 1);
+          updateVoteState(voteIndex, 'upVotes', upVotes + 1);
         }}
       />,
       <Button
-        title={`DOWNVOTE (${votes.down})`}
+        title={`DOWNVOTE (${downVotes})`}
         onPress={() => {
-          updateVoteState(voteIndex, 'down', votes.down + 1);
+          updateVoteState(voteIndex, 'downVotes', downVotes + 1);
         }}
       />,
       <Button
-        title={`MEH (${votes.neutral})`}
+        title={`MEH (${neutralVotes})`}
         onPress={() => {
-          updateVoteState(voteIndex, 'neutral', votes.neutral + 1);
+          updateVoteState(voteIndex, 'neutralVotes', neutralVotes + 1);
         }}
       />,
     ];
