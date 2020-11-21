@@ -41,6 +41,7 @@ const App = () => {
     const initialState = {
       totalVotes: [],
     };
+    // TODO only iterate over active maps
     gameModes.forEach((_, modeIndex) => {
       gameMaps.forEach((__, mapIndex) => {
         gameHeroes.forEach((___, heroIndex) => {
@@ -98,7 +99,7 @@ const App = () => {
       return {
         label: mode.name,
         onClick: () => {
-          setCurrentMode(modeIndex); // todo clean next line heavily
+          setCurrentMode(modeIndex); // TODO clean next line heavily
           setCurrentMap(modeIndex===2 ? gameMaps.findIndex((map) => map.name === 'ARAM') : null);
         },
         isDisabled: currentMode === modeIndex,
@@ -124,17 +125,18 @@ const App = () => {
     });
   };
 
+  const updateVoteState = (
+    voteIndex: number,
+    voteType: string,
+    numVotes: number,
+  ) => {
+    const newState = state;
+    newState.totalVotes[voteIndex].votes[voteType] = numVotes;
+    setState(newState);
+  };
+  // TODO FIX STATE NOT UPDATING ON CLICK!
   const generateVoteButtons = (heroIndex) => {
     const {votes, voteIndex} = findVotesByHeroIndex(heroIndex);
-    const updateVoteState = (
-      voteIndex: number,
-      voteType: string,
-      numVotes: number,
-    ) => {
-      const newState = state;
-      newState.totalVotes[voteIndex].votes[voteType] = numVotes;
-      setState(newState);
-    };
     return [
       <Button
         title={`UPVOTE (${votes.up})`}
@@ -149,7 +151,7 @@ const App = () => {
         }}
       />,
       <Button
-        title={`MEH VOTE (${votes.neutral})`}
+        title={`MEH (${votes.neutral})`}
         onPress={() => {
           updateVoteState(voteIndex, 'neutral', votes.neutral + 1);
         }}
