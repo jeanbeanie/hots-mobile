@@ -3,7 +3,7 @@
  * https://github.com/react-native-community/react-native-template-typescript
  */
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   Button,
@@ -32,15 +32,9 @@ type IVotes = {
   votes: IVoteCount;
 };
 
-interface IState {
-  totalVotes: IVotes[];
-}
-
 const App = () => {
-  const returnInitialState = (): IState => {
-    const initialState = {
-      totalVotes: [],
-    };
+  const returnInitialState = (): IVotes[] => {
+    const initialState = [];
     // TODO only iterate over active maps
     gameModes.forEach((_, modeIndex) => {
       gameMaps.forEach((__, mapIndex) => {
@@ -52,7 +46,7 @@ const App = () => {
             votes: {up: 0, down: 0, neutral: 0},
           };
 
-          initialState.totalVotes.push(voteState);
+          initialState.push(voteState);
         });
       });
     });
@@ -61,25 +55,23 @@ const App = () => {
 
   const findVotesByHeroIndex = (hero: number) => {
     let voteIndex;
-    const votes = state.totalVotes.find(
-      ({modeIndex, mapIndex, heroIndex}, index) => {
-        if (
-          modeIndex === currentMode &&
-          mapIndex === currentMap &&
-          heroIndex === hero
-        ) {
-          voteIndex = index;
-          return true;
-        } else {
-          return false;
-        }
-      },
-    ).votes;
+    const votes = totalVotes.find(({modeIndex, mapIndex, heroIndex}, index) => {
+      if (
+        modeIndex === currentMode &&
+        mapIndex === currentMap &&
+        heroIndex === hero
+      ) {
+        voteIndex = index;
+        return true;
+      } else {
+        return false;
+      }
+    }).votes;
     console.log('VOTES', votes);
     return {votes, voteIndex};
   };
 
-  const [state, setState] = useState(returnInitialState());
+  const [totalVotes, setTotalVotes] = useState(returnInitialState());
   const [currentMap, setCurrentMap] = useState(null);
   const [currentMode, setCurrentMode] = useState(0);
   const {height} = Dimensions.get('window');
@@ -100,7 +92,11 @@ const App = () => {
         label: mode.name,
         onClick: () => {
           setCurrentMode(modeIndex); // TODO clean next line heavily
-          setCurrentMap(modeIndex===2 ? gameMaps.findIndex((map) => map.name === 'ARAM') : null);
+          setCurrentMap(
+            modeIndex === 2
+              ? gameMaps.findIndex((map) => map.name === 'ARAM')
+              : null,
+          );
         },
         isDisabled: currentMode === modeIndex,
       };
@@ -130,9 +126,9 @@ const App = () => {
     voteType: string,
     numVotes: number,
   ) => {
-    const newState = state;
-    newState.totalVotes[voteIndex].votes[voteType] = numVotes;
-    setState(newState);
+    const newVotes = totalVotes;
+    newVotes[voteIndex].votes[voteType] = numVotes;
+    setTotalVotes(newVotes);
   };
   // TODO FIX STATE NOT UPDATING ON CLICK!
   const generateVoteButtons = (heroIndex) => {
@@ -179,6 +175,11 @@ const App = () => {
   };
 
   /* RENDER */
+
+  useEffect(() => {
+    console.log('RENDER');
+  });
+
   const title = returnScreenTitle();
   const filterLinks = returnFilterLinks();
   const gridItems = returnGridItems();
