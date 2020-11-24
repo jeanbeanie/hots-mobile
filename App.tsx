@@ -138,18 +138,21 @@ const App = () => {
     const {upVotes, downVotes, neutralVotes} = votes;
     return [
       <Button
+        key={`up-${heroIndex}`}
         title={`UPVOTE (${upVotes})`}
         onPress={() => {
           updateVoteState(voteIndex, 'upVotes', upVotes + 1);
         }}
       />,
       <Button
+        key={`down-${heroIndex}`}
         title={`DOWNVOTE (${downVotes})`}
         onPress={() => {
           updateVoteState(voteIndex, 'downVotes', downVotes + 1);
         }}
       />,
       <Button
+        key={`neutral-${heroIndex}`}
         title={`MEH (${neutralVotes})`}
         onPress={() => {
           updateVoteState(voteIndex, 'neutralVotes', neutralVotes + 1);
