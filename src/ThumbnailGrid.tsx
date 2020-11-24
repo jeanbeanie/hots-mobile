@@ -36,7 +36,9 @@ const Thumbnail = (props: IThumbnailProps) => {
           }}>
           {props.name}
         </Text>
-        {buttons && buttons.map((button) => button)}
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          {buttons && buttons.map((button) => button)}
+        </View>
       </Pressable>
     </View>
   );
